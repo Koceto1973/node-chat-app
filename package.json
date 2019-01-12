@@ -1,0 +1,22 @@
+{
+  "name": "node-chat-app",
+  "version": "1.0.0",
+  "description": "sockets.io exercise",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "start-watch": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines":{
+    "node": "10.14.2"
+  },
+  "author": "TeamK",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

@@ -8,7 +8,7 @@
     "start-watch": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines":{
+  "engines": {
     "node": "10.14.2"
   },
   "author": "TeamK",
@@ -17,6 +17,7 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "socket.io": "^2.2.0"
   }
 }

@@ -14,7 +14,6 @@ var io = socketIO(server);           // socket to server integration
 
 app.use(express.static(publicPath)); // static asset in by middleware
 
-// connection event triggers socket creation
 io.on('connection', (socket) => {
   console.log('New user connected');
 
@@ -22,9 +21,10 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
     io.emit('newMessage', generateMessage(message.from, message.text));
+    callback('This is from the server.'); // acknowledgement to client
     // socket.broadcast.emit('newMessage', {
     //   from: message.from,
     //   text: message.text,
@@ -36,6 +36,7 @@ io.on('connection', (socket) => {
     console.log('User was disconnected');
   });
 });
+
 
 // just the express app server
 server.listen(port, () => {

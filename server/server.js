@@ -1,18 +1,16 @@
-const path = require('path');  // built in module without npm install
-const http = require('http');  // built in module without npm install, required for sockets.io
+const path = require('path');
+const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const {generateMessage} = require('./utils/message');
-const publicPath = path.join(__dirname, '../public'); // public path normalized
-const port = process.env.PORT || 3000;  // heroku compatible port setting
+const {generateMessage, generateLocationMessage} = require('./utils/message');
+const publicPath = path.join(__dirname, '../public');
+const port = process.env.PORT || 3000;
 var app = express();
-var server = http.createServer(app); // server app is up
-var io = socketIO(server);           // socket to server integration
-// socket.io hooks into your Express server 
-// and serves the socket.io.js file to the client whenever the request for it comes in.
+var server = http.createServer(app);
+var io = socketIO(server);
 
-app.use(express.static(publicPath)); // static asset in by middleware
+app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('New user connected');
@@ -24,12 +22,11 @@ io.on('connection', (socket) => {
   socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
     io.emit('newMessage', generateMessage(message.from, message.text));
-    callback('This is from the server.'); // acknowledgement to client
-    // socket.broadcast.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()
-    // });
+    callback('This is from the server.');
+  });
+
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
   });
 
   socket.on('disconnect', () => {
@@ -37,8 +34,6 @@ io.on('connection', (socket) => {
   });
 });
 
-
-// just the express app server
 server.listen(port, () => {
   console.log(`Server is up on ${port}`);
 });

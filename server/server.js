@@ -14,8 +14,7 @@ var server = http.createServer(app);
 var io = socketIO(server);
 var users = new Users();
 
-// app.use(express.static(publicPath));
-app.use(express.static(__dirname + '../public'));
+app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('New user connected');
